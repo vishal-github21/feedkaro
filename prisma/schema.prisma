@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+  
+}
+
+datasource db {
+  provider     = "mongodb"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Reuser {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  clerk_id          String  @unique
+  name              String?
+  earning           Int  @default(0)
+  account_no        String?
+  ifsc_code         String?
+  bank_name         String?
+  user_name_in_bank String?
+  feed_count        Int  @default(0)
+  Place             Place[]
+  Feeds             Feeds[]
+}
+
+model Place {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  link       String
+  balance    Int  @default(0)
+  img        String?
+  feed_count Int  @default(0)
+  user       Reuser    @relation(fields: [userId], references: [id])
+  userId     String  @db.ObjectId
+}
+
+model Feeds{
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  user       Reuser    @relation(fields: [userId], references: [id])
+  userId     String  @db.ObjectId
+  img        String
+  img2       String
+}

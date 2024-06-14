@@ -4,6 +4,6 @@
         "DATABASE_URL": "@env.DATABASE_URL"
       }
     },
-    "buildCommand": "npm run build && npm run postinstall"
+    "buildCommand": "npm run postinstall && npm run build"
   }
   

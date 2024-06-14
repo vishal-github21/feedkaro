@@ -2,11 +2,13 @@
 import { useState, useEffect } from 'react';
 import Script from 'next/script';
 import axios from 'axios';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const AddBalance = () => {
+  const router=useRouter()
     const searchParams = useSearchParams();
   const placeid = searchParams.get('placeid');
+  const id = searchParams.get('id');
  const [name, setName] = useState<string>('vishal kumar');
  const [email, setEmail] = useState<string>('vishalkr2291981121@gmail.com');
  const [amount, setAmount] = useState<string>('10');
@@ -81,6 +83,7 @@ const AddBalance = () => {
             console.error("Error:", err);
           }
       alert('Payment succeeded');
+      router.push(`/yourplaces?id=${id}`)
      } else {
       alert(result.data.message);
      }

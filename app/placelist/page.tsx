@@ -48,6 +48,7 @@ const placelist = () => {
         console.log(response.data);
         setEarning(earning+4)
         alert("Feed uploaded successfully!");
+        window.location.reload();
       } catch (err) {
         console.error("Error uploading image:", err);
         alert("Failed to upload image.");

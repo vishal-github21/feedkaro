@@ -53,7 +53,7 @@ const YourPlaces = () => {
               </div>
             </div>
             <div>
-            <div className=" mx-[18%] mt-8 h-[65vh] overflow-y-scroll custom-scrollbar scroll ">
+            <div className=" mx-[12%] mt-8 h-[65vh] overflow-y-scroll custom-scrollbar scroll ">
           {places ? (
             places.map((place) => (
               <div
@@ -69,6 +69,7 @@ const YourPlaces = () => {
         pathname: "/addbalance",
         query: {
             placeid:place.id,
+            id:id
         }}
     }>Add balance</Link></span>
               </div>

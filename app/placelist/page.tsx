@@ -9,7 +9,7 @@ interface Place {
   img: string;
   id:string;
 }
-const placelist = () => {
+const Placelist = () => {
   const [isediting, setisediting] = useState(false);
   const [id, setId] = useState("id");
   const [clerk_id, setClerk_id] = useState("clerk_id");
@@ -262,4 +262,4 @@ const placelist = () => {
   );
 };
 
-export default placelist;
+export default Placelist;

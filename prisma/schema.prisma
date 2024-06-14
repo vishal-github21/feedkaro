@@ -21,22 +21,28 @@ model Reuser {
   feed_count        Int  @default(0)
   Place             Place[]
   Feeds             Feeds[]
+  feedplaces        String[] @db.ObjectId
+  places            String[] @db.ObjectId
 }
 
 model Place {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  name       String  
   link       String
   balance    Int  @default(0)
   img        String?
   feed_count Int  @default(0)
   user       Reuser    @relation(fields: [userId], references: [id])
   userId     String  @db.ObjectId
+  Feeds             Feeds[]
+
 }
 
 model Feeds{
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   user       Reuser    @relation(fields: [userId], references: [id])
   userId     String  @db.ObjectId
+  place       Place    @relation(fields: [placeId], references: [id])
+  placeId     String  @db.ObjectId
   img        String
-  img2       String
 }

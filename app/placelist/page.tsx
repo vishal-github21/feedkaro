@@ -236,10 +236,10 @@ const Placelist = ({ initialData, initialPlaces }) => {
 };
 
 export async function getServerSideProps() {
-  const resData = await axios.get('https://your-api-endpoint.com/api/us');
+  const resData = await axios.get('api/us');
   const initialData = resData.data;
 
-  const resPlaces = await axios.get('https://your-api-endpoint.com/api/fetchplaces');
+  const resPlaces = await axios.get('api/fetchplaces');
   const initialPlaces = resPlaces.data;
 
   return {

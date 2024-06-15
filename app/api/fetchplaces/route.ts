@@ -19,9 +19,7 @@ export async function GET() {
   let post;
   try {
     const course=await db.place.findMany({
-      where: { balance:{
-        gt: 9
-      } },
+      
     });
   return NextResponse.json(course);
   } catch (error) {

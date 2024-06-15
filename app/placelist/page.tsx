@@ -1,8 +1,8 @@
 "use client"
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
 import { UserButton } from "@clerk/nextjs";
-import Link from "next/link";
-import { useState } from "react";
-import axios from "axios";
 
 interface Place {
   name: string;
@@ -11,7 +11,26 @@ interface Place {
   id: string;
 }
 
-const Placelist = ({ initialData, initialPlaces }) => {
+async function fetchUserData() {
+  const res = await axios.get('/api/us');
+  return res.data;
+}
+
+async function fetchPlaces() {
+  const res = await axios.get('/api/fetchplaces');
+  return res.data;
+}
+
+export default async function Placelist() {
+  const initialData = await fetchUserData();
+  const initialPlaces = await fetchPlaces();
+
+  return (
+    <ClientComponent initialData={initialData} initialPlaces={initialPlaces} />
+  );
+}
+
+function ClientComponent({ initialData, initialPlaces }) {
   const [isediting, setisediting] = useState(false);
   const [id, setId] = useState(initialData.id);
   const [clerk_id, setClerk_id] = useState(initialData.clerk_id);
@@ -172,7 +191,6 @@ const Placelist = ({ initialData, initialPlaces }) => {
       <div className="bg-gradient-to-br from-[#c9d5df] to-[#e7c8d4] flex flex-col p-8 h-screen w-[79%]">
         <div>
           <span className="pl-6 z-20 text-2xl font-bold text-[#4368ffcb] font-sans">feedkaro</span>
-
           <Link
             href={{
               pathname: "/yourplaces",
@@ -188,67 +206,47 @@ const Placelist = ({ initialData, initialPlaces }) => {
             </div>
           </Link>
         </div>
-        <div className="w-full mt-8 h-[85%] overflow-y-scroll custom-scrollbar scroll">
-          {places && places.length > 0 ? (
-            places
-              .filter((place) => !feedplaces.includes(place.id))
-              .map((place, index) => (
-                <div
-                  key={index}
-                  className="bg-gradient-to-bl from-[#ececec] to-[#ffffff] p-4 w-[100%] rounded-lg mt-4 shadow-md"
+        <div className="flex flex-col h-[50%] mt-14 ml-6">
+          <div className="h-[12%] w-[83%] text-sm rounded-md items-center flex flex-row">
+            <div className="text-sm w-[30%] h-full pl-2 py-[1px] bg-gradient-to-r from-[#C6CF10] to-[#11C3D9] flex justify-center items-center font-semibold rounded-l-md">
+              Place
+            </div>
+            <div className="text-sm w-[50%] h-full pl-2 py-[1px] bg-[#C6CF10] flex justify-center items-center font-semibold">
+              Upload feed for this place
+            </div>
+            <div className="text-sm w-[20%] h-full pl-2 py-[1px] bg-[#C6CF10] flex justify-center items-center font-semibold rounded-r-md">
+              upload
+            </div>
+          </div>
+          <div className="h-[88%] w-[83%] overflow-y-scroll rounded-md">
+            {places.map((place) => (
+              <div className="h-[10%] text-sm items-center flex flex-row" key={place.id}>
+                <div className="text-sm w-[30%] h-full bg-[#bfc4cf] pl-2 py-[1px] flex justify-center items-center font-semibold rounded-l-md">
+                  {place.name}
+                </div>
+                <form
+                  onSubmit={(e) => handleSubmit(e, place.id, id)}
+                  className="flex flex-row w-[70%]"
                 >
-                  <h3 className="text-xl text-black font-bold">{place.name}</h3>
-                  <a
-                    href={place.link}
-                    className="text-sm font-mono border border-gray-400 border-dotted w-full py-1 px-4 rounded-md mt-1 flex items-center bg-gray-100 text-blue-600"
-                  >
-                    {place.link}
-                  </a>
-                  <form
-                    onSubmit={(e) => handleSubmit(e, place.id, id)}
-                    className="items-center mt-2"
-                  >
-                    <label htmlFor="image" className="text-sm text-gray-400 mr-2">
-                      Add screenshot
-                    </label>
+                  <div className="w-[50%] h-full bg-[#bfc4cf] pl-2 py-[1px] flex justify-center items-center font-semibold">
                     <input
                       type="file"
-                      title="Upload your file"
-                      id="image"
-                      accept="image/*"
-                      className="text-purple-500 text-sm font-mono"
+                      name="image"
+                      className="file-input file-input-bordered file-input-sm w-full max-w-xs"
                     />
-                    <button
-                      type="submit"
-                      className="bg-blue-500 text-white px-3 text-xs py-1 rounded-lg float-right"
-                    >
-                      Submit
-                    </button>
-                  </form>
-                </div>
-              ))
-          ) : (
-            <div>No places found</div>
-          )}
+                  </div>
+                  <button
+                    type="submit"
+                    className="text-sm w-[20%] h-full bg-[#bfc4cf] pl-2 py-[1px] flex justify-center items-center font-semibold rounded-r-md"
+                  >
+                    Upload
+                  </button>
+                </form>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-export async function getServerSideProps() {
-  const resData = await axios.get('api/us');
-  const initialData = resData.data;
-
-  const resPlaces = await axios.get('api/fetchplaces');
-  const initialPlaces = resPlaces.data;
-
-  return {
-    props: {
-      initialData,
-      initialPlaces,
-    },
-  };
 }
-
-export default Placelist;

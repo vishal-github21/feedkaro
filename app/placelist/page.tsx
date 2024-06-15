@@ -79,6 +79,11 @@ const Placelist = () => {
         console.error("Error:", err);
       }
     };
+    
+    
+    fetchData();
+  }, []);
+  useEffect(() => {
     const fetchplaces = async () => {
       try {
         const response = await axios.get("/api/fetchplaces");
@@ -90,7 +95,6 @@ const Placelist = () => {
       }
     };
     fetchplaces();
-    fetchData();
   }, []);
   const handleUpdate = async () => {
     try {

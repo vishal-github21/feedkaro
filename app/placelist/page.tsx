@@ -1,8 +1,21 @@
-"use client"
-import { useState, useEffect } from 'react';
+'use client'
+import { useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { UserButton } from "@clerk/nextjs";
+
+interface UserData {
+  id: string;
+  clerk_id: string;
+  name: string;
+  earning: number;
+  account_no: string;
+  ifsc_code: string;
+  bank_name: string;
+  user_name_in_bank: string;
+  feedplaces: string[];
+  feed_count: number;
+}
 
 interface Place {
   name: string;
@@ -11,26 +24,26 @@ interface Place {
   id: string;
 }
 
-async function fetchUserData() {
+async function fetchUserData(): Promise<UserData> {
   const res = await axios.get('/api/us');
   return res.data;
 }
 
-async function fetchPlaces() {
+async function fetchPlaces(): Promise<Place[]> {
   const res = await axios.get('/api/fetchplaces');
   return res.data;
 }
 
 export default async function Placelist() {
-  const initialData = await fetchUserData();
-  const initialPlaces = await fetchPlaces();
+  const initialData: UserData = await fetchUserData();
+  const initialPlaces: Place[] = await fetchPlaces();
 
   return (
     <ClientComponent initialData={initialData} initialPlaces={initialPlaces} />
   );
 }
 
-function ClientComponent({ initialData, initialPlaces }) {
+function ClientComponent({ initialData, initialPlaces }: { initialData: UserData; initialPlaces: Place[] }) {
   const [isediting, setisediting] = useState(false);
   const [id, setId] = useState(initialData.id);
   const [clerk_id, setClerk_id] = useState(initialData.clerk_id);

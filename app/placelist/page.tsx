@@ -86,7 +86,9 @@ const Placelist = () => {
   useEffect(() => {
     const fetchplaces = async () => {
       try {
-        const response = await axios.get("/api/fetchplaces");
+        const response = await axios.get("/api/fetchplaces", {
+          params: { userId: id }
+        });
         const data = response.data;
         console.log(data);
         setplaces(data);

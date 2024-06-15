@@ -3,31 +3,27 @@ import { NextResponse } from 'next/server'
 import {db} from '../../../lib/db'
 // app\api\us\route.ts
 
-export async function GET() {
+export async function GET(req:Request) {
  
   
-  // let body;
-  // try {
-  //   // body = await req.json()
-  // } catch (error) {
-  //   console.error('Error parsing request body:', error)
-  //   return NextResponse.json({ error: 'Bad Request' }, { status: 400 })
-  // }
-
-  // const { title, content } = body
- 
-  let post;
-  try {
-    const course=await db.place.findMany({
-       where: { balance:{
-        gt: 9
-      } },
-    });
+    const url = new URL(req.url);
+    const userId = url.searchParams.get('userId');
+    const amountInt = 9;
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+    }
+  
+    try {
+      const course = await db.place.findMany({
+        where: {balance:{
+          gt:amountInt,
+        }},
+      });
   return NextResponse.json(course);
   } catch (error) {
     console.error('Error creating post:', error)
     return NextResponse.json({ error: 'Internal Server Error while creating post'}, { status: 500 })
   }
 
-  return NextResponse.json(post)
+  
 }

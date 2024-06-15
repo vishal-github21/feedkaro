@@ -135,7 +135,7 @@ const Placelist = () => {
               <div className="text-xs text-[#536d77]">Bank name</div>
               {isediting ? (
                 <input
-                  className="text-[9.5px] font-light bg-[#425861] rounded-md px-3 w-[100%] h-5"
+                  className="text-[9.5px] font-light bg-[#425861] rounded-sm px-3 w-[100%] h-5"
                   value={bank_name}
                   onChange={(e) => setBank_name(e.target.value)}
                 />

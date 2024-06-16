@@ -53,7 +53,7 @@ const YourPlaces = () => {
               </div>
             </div>
             <div>
-            <div className=" mx-[12%] mt-8 h-[65vh] overflow-y-scroll md:custom-scrollbar scroll ">
+            <div className=" md:mx-[12%] mx-[6%] mt-8 h-[65vh] overflow-y-scroll md:custom-scrollbar scroll ">
           {places ? (
             places.map((place) => (
               <div
@@ -64,7 +64,7 @@ const YourPlaces = () => {
                 <a href={place.link} className="text-sm font-mono border overflow-hidden border-gray-400 border-dotted w-full py-1 px-4 rounded-md mt-1 flex items-center bg-gray-100 text-blue-600">
                   {place.link}
                 </a>
-                <span className='text-green-500 font-mono md:ml-[70%]  mt-2'>BALANCE : {place.balance}</span>
+                <span className='text-green-500 font-mono md:ml-[50%] lg:ml-[70%]  mt-2'>BALANCE:{place.balance}</span>
                 <span className='bg-blue-500 px-3 py-1 rounded-md ml-5 text-xs mt-12'><Link href={{
         pathname: "/addbalance",
         query: {

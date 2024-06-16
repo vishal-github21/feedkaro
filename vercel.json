@@ -1,9 +1,10 @@
 {
     "build": {
       "env": {
-         "DATABASE_URL":"mongodb+srv://vishalkr2291981121:feedkaro21702@cluster0.shugknk.mongodb.net/User"
+        "DATABASE_URL":"mongodb+srv://vishalkr2291981121:feedkaro21702@cluster0.shugknk.mongodb.net/User"
+
       }
     },
-    "buildCommand": "npm run postinstall && npm run build  "
+    "buildCommand": "npm run postinstall && npm run build"
   }
   

@@ -9,8 +9,8 @@ const AddBalance = () => {
     const searchParams = useSearchParams();
   const placeid = searchParams.get('placeid');
   const id = searchParams.get('id');
- const [name, setName] = useState<string>('vishal kumar');
- const [email, setEmail] = useState<string>('vishalkr2291981121@gmail.com');
+ const [name, setName] = useState<string>('');
+ const [email, setEmail] = useState<string>('');
  const [amount, setAmount] = useState<string>('10');
  const [currency, setCurrency] = useState<string>('INR');
  const [scriptLoaded, setScriptLoaded] = useState<boolean>(false);
@@ -116,7 +116,7 @@ const AddBalance = () => {
    <div className='absolute top-5 font-bold text-2xl text-gray-500 left-12'>feedkaro</div>
    <section className="min-h-screen bg-gray-200 flex justify-center w-full gap-6 h-14 items-center ">
     <form
-     className="flex flex-col bg-gray-400 border-2 w-[90vh] border-black rounded-lg p-6 gap-6"
+     className="flex flex-col bg-gray-400 mx-2 border-2 w-[90vh] border-black rounded-lg p-6 gap-6"
      onSubmit={processPayment}
     >
      <div className="space-y-1 ">

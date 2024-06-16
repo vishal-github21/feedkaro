@@ -34,10 +34,10 @@ const YourPlaces = () => {
   return (
       
           <div className='shadow-xl bg-gradient-to-r from-[#dcd0da] pb-5 to-[#ccc5e3] min-h-screen w-full'>
-            <div className='h-[28vh] bg-violet-950 shadow-md  text-5xl flex items-center px-24'>
+            <div className='md:h-[28vh] h-[20vh] bg-violet-950 shadow-md  md:text-5xl text-2xl flex items-center md:px-24 px-5'>
               <div className='flex-col'>
                 <div>Dashboard</div>
-                <div className='text-base mt-2 pl-1'>user id : {id}</div>
+                <div className='md:text-base text-sm font-light mt-2 pl-1'>user id : {id}</div>
               </div>
               <div className='float-right w-[70%]'>
               <Link href={{
@@ -53,7 +53,7 @@ const YourPlaces = () => {
               </div>
             </div>
             <div>
-            <div className=" mx-[12%] mt-8 h-[65vh] overflow-y-scroll custom-scrollbar scroll ">
+            <div className=" mx-[12%] mt-8 h-[65vh] overflow-y-scroll md:custom-scrollbar scroll ">
           {places ? (
             places.map((place) => (
               <div
@@ -61,10 +61,10 @@ const YourPlaces = () => {
                 className=" bg-gradient-to-bl from-[#ececec] to-[#ffffff] p-4 w-[100%] rounded-lg mt-4 shadow-md"
               >
                 <h3 className="text-xl text-black font-bold">{place.name}</h3>
-                <a href={place.link} className="text-sm font-mono border border-gray-400 border-dotted w-full py-1 px-4 rounded-md mt-1 flex items-center bg-gray-100 text-blue-600">
+                <a href={place.link} className="text-sm font-mono border overflow-hidden border-gray-400 border-dotted w-full py-1 px-4 rounded-md mt-1 flex items-center bg-gray-100 text-blue-600">
                   {place.link}
                 </a>
-                <span className='text-green-500 font-mono ml-[70%] mt-2'>BALANCE : {place.balance}</span>
+                <span className='text-green-500 font-mono md:ml-[70%]  mt-2'>BALANCE : {place.balance}</span>
                 <span className='bg-blue-500 px-3 py-1 rounded-md ml-5 text-xs mt-12'><Link href={{
         pathname: "/addbalance",
         query: {

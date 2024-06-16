@@ -16,12 +16,12 @@ export default function Home() {
         <div className="absolute z-0  overflow-hidden "><Image src={navbg} alt="" className="object-cover object-bottom  h-24 w-[300vh] "></Image></div>
       <div className="relative pt-4 pl-10 z-20 text-2xl font-bold font-sans">feedkaro</div>
       <div className="flex flex-row items-center  justify-around  w-full h-[80vh] ">
-        <div className="w-[45%]  h-[70vh] ml-5 md:ml-24 mt-20">
-          <div className="lg:h-[30vh] md:h-[40vh] md:text-4xl sm:h-[50vh] sm:w-[10vh] md:w-[40vh] lg:w-[80vh]  pt-7 lg:text-6xl sm:text-2xl">Empower Your <span className="text-[#8859EC]">Business</span> with Honest <span className="text-[#8859EC]">Feedback</span></div>
+        <div className="md:w-[45%] w-[100%]  h-[70vh] ml-5 md:ml-24 mt-20">
+          <div className="lg:h-[30vh] md:h-[40vh] md:text-4xl sm:h-[50vh] w-full md:w-[40vh] lg:w-[80vh] text-4xl  pt-7 lg:text-6xl">Empower Your <span className="text-[#8859EC]">Business</span> with Honest <span className="text-[#8859EC]">Feedback</span></div>
           <div className="mt-20 font-thin">Register your organization, purchase feedback slots, and gain actionable feedback to improve your services</div>
           <div className="mt-5 font-thin sm:text-xs md:text-sm lg:text-base">Browse registered places, share your experiences, and earn money for your valuable feedback</div>
         </div>
-        <div className="w-[45%] "><Image src={illus} alt="" className="pt-6 float-end object-contain w-[150vh] h-[70vh] "></Image></div>
+        <div className="w-[45%] "><Image src={illus} alt="" className="pt-6 float-end object-contain w-[150vh] h-[70vh] hidden md:block "></Image></div>
         
       </div>
       </div>

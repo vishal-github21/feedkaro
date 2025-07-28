@@ -207,7 +207,7 @@ const Placelist = () => {
             )}
           </div>
         </div>
-        <div className=" float-right mr-4 mt-[24%]"><button className="bg-gradient-to-r from-[#4800ff] via-[#b300ff] to-[#ff006a] text-[9.5px] hover:opacity-90 text-white py-1 px-3 rounded-lg border-2 border-pink-600 shadow-lg hover:transition-colors transition-colors">
+        <div className=" float-right mr-4 mt-[15%]"><button className="bg-gradient-to-r from-[#4800ff] via-[#b300ff] to-[#ff006a] text-[9.5px] hover:opacity-90 text-white py-1 px-3 rounded-lg border-2 border-pink-600 shadow-lg hover:transition-colors transition-colors">
             request withdrawal
         </button></div>
       </div>

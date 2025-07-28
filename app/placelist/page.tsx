@@ -361,6 +361,7 @@ const Placelist = () => {
     <input
       type="file"
       id={`image-${index}`}
+      name="image"
       accept="image/*"
       className="text-xs hidden text-gray-700"
     />
@@ -437,6 +438,7 @@ const Placelist = () => {
     <input
       type="file"
       id={`image-${index}`}
+      name="image"
       accept="image/*"
       className="text-xs text-gray-700"
     />

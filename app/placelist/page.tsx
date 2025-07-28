@@ -327,7 +327,7 @@ const Placelist = () => {
             </div>
           </Link>
         </div>
-        <div className="mb-4 flex justify-center">
+        <div className="mb-4 mt-2 flex justify-center">
   <input
     type="text"
     placeholder="Search places..."
@@ -423,9 +423,26 @@ const Placelist = () => {
             </div>
           </Link>
         </div>
+        <div className="mb-4 mt-2 flex justify-center">
+  <input
+    type="text"
+    placeholder="Search places..."
+    value={searchTerm}
+    onChange={e => setSearchTerm(e.target.value)}
+    className="
+      w-full max-w-md
+      px-4 py-2
+      border border-gray-300 rounded-lg
+      focus:outline-none focus:ring-2 focus:ring-purple-500
+      placeholder-gray-400
+    "
+  />
+</div>
         <div className="w-full md:mt-8 mt-2 h-[85%] overflow-y-scroll md:custom-scrollbar scroll">
           {places && places.length > 0 ? (
-            places.filter(place => !feedplaces.includes(place.id)).map((place, index) => (
+            places.filter(place => !feedplaces.includes(place.id)).filter(place =>
+        place.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ).map((place, index) => (
               <div
   key={place.id}
   className="bg-white bg-opacity-90 shadow-md rounded-lg p-3 mt-4 w-full transition-transform hover:shadow-lg"

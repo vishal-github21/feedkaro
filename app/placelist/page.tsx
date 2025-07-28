@@ -423,7 +423,7 @@ const Placelist = () => {
             </div>
           </Link>
         </div>
-        <div className="mb-3 mt-3 flex justify-center">
+        <div className="mb-2 mt-3 flex justify-center">
   <input
     type="text"
     placeholder="Search places..."
@@ -438,7 +438,7 @@ const Placelist = () => {
     "
   />
 </div>
-        <div className="w-full md:mt-8 mt-2 h-[85%] overflow-y-scroll md:custom-scrollbar scroll">
+        <div className="w-full md:mt-8 mt-2 h-[80%] overflow-y-scroll md:custom-scrollbar scroll">
           {places && places.length > 0 ? (
             places.filter(place => !feedplaces.includes(place.id)).filter(place =>
         place.name.toLowerCase().includes(searchTerm.toLowerCase())

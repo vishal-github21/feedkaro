@@ -391,46 +391,48 @@ const Placelist = () => {
           {places && places.length > 0 ? (
             places.filter(place => !feedplaces.includes(place.id)).map((place, index) => (
               <div
-  key={index}
-  className="bg-white bg-opacity-90 shadow-xl rounded-2xl p-5 mt-6 w-full transition-transform hover:scale-[1.015] hover:shadow-2xl"
+  key={place.id}
+  className="bg-white bg-opacity-90 shadow-md rounded-lg p-3 mt-4 w-full transition-transform hover:shadow-lg"
 >
-  <h3 className="text-2xl font-bold text-[#1a1a1a] mb-1">{place.name}</h3>
+  {/* Title */}
+  <h3 className="text-base font-medium text-gray-800 truncate">
+    {place.name}
+  </h3>
 
-  <a
-    href={place.link}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="inline-block truncate w-full text-blue-600 hover:text-blue-800 font-mono text-sm border border-dashed border-blue-300 bg-blue-50 px-4 py-2 rounded-lg transition-all"
-  >
-    {place.link}
-  </a>
+  {/* Google Maps Link */}
+  <div className="flex items-center text-blue-600 text-sm mt-1 hover:underline">
+    <HiBars3 /* swap this for your map pin icon import */ className="mr-1 h-4 w-4" />
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        place.link
+      )}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View on Map
+    </a>
+  </div>
 
+  {/* Upload Form */}
   <form
     onSubmit={(e) => handleSubmit(e, place.id, id)}
-    className="mt-4 flex flex-col gap-3"
+    className="mt-2 flex items-center"
   >
-    <label htmlFor={`image-${index}`} className="text-sm font-medium text-gray-700">
-      Upload a screenshot
+    <label htmlFor={`image-${index}`} className="text-xs text-gray-600 mr-2">
+      Screenshot
     </label>
-
     <input
       type="file"
       id={`image-${index}`}
       accept="image/*"
-      className="block w-full text-sm text-gray-700 file:mr-4 file:py-1.5 file:px-4
-        file:rounded-md file:border-0 file:text-sm file:font-semibold
-        file:bg-blue-100 file:text-blue-700
-        hover:file:bg-blue-200 transition-colors"
+      className="text-xs text-gray-700"
     />
-
-    <div className="flex justify-end">
-      <button
-        type="submit"
-        className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white text-sm px-4 py-2 rounded-lg shadow-md hover:opacity-90 transition"
-      >
-        Submit
-      </button>
-    </div>
+    <button
+      type="submit"
+      className="ml-auto bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:opacity-90 text-white text-[10px] px-2 py-1 rounded"
+    >
+      Submit
+    </button>
   </form>
 </div>
             ))

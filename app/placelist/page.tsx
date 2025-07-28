@@ -411,11 +411,11 @@ const Placelist = () => {
                     className=" text-purple-500 md:block hidden text-sm font-mono"
                   />
                   <button
-                    type="submit"
-                    className="bg-blue-500 text-white px-3 py-1 mb-3 text-xs rounded-lg float-right"
-                  >
-                    Submit
-                  </button>
+    type="submit"
+    className="bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold py-1 px-4 rounded-lg self-end"
+  >
+    Submit
+  </button>
                 </form>
               </div>
             ))

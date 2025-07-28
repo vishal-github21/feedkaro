@@ -359,7 +359,11 @@ const Placelist = () => {
               </div>
             ))
           ) : (
-            <div>No places found</div>
+           <div className="flex flex-col items-center justify-center h-full">
+  <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#8A2BE2] mb-4"></div>
+  <p className="text-[#8A2BE2] text-lg font-semibold font-mono">Fetching new places...</p>
+  <p className="text-gray-500 text-sm">Hang tight, something cool is on the way!</p>
+</div>
           )}
         </div>
       </div>}
@@ -416,7 +420,11 @@ const Placelist = () => {
               </div>
             ))
           ) : (
-            <div>No places found</div>
+            <div className="flex flex-col items-center justify-center h-full">
+  <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#8A2BE2] mb-4"></div>
+  <p className="text-[#8A2BE2] text-lg font-semibold font-mono">Fetching new places...</p>
+  <p className="text-gray-500 text-sm">Hang tight, something cool is on the way!</p>
+</div>
           )}
         </div>
       </div>

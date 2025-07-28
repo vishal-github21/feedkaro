@@ -335,7 +335,7 @@ const Placelist = () => {
     onChange={e => setSearchTerm(e.target.value)}
     className="
       w-full max-w-md
-      px-4 py-2
+      px-4 py-2 text-black
       border border-gray-300 rounded-lg
       focus:outline-none focus:ring-2 focus:ring-purple-500
       placeholder-gray-400
@@ -431,7 +431,7 @@ const Placelist = () => {
     onChange={e => setSearchTerm(e.target.value)}
     className="
       w-full max-w-md
-      px-4 py-2
+      px-4 py-2 text-black
       border border-gray-300 rounded-lg
       focus:outline-none focus:ring-2 focus:ring-purple-500
       placeholder-gray-400

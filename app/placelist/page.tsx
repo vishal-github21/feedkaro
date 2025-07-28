@@ -321,7 +321,7 @@ const Placelist = () => {
               },
             }}
           >
-            <div className="md:h-[6vh] h-[5vh] w-[15vh] bg-[#C6CF10] hover:bg-[#BAC20C] hover:border-2 rounded-md flex justify-center items-center float-right md:mr-8 ">
+            <div className="md:h-[6vh] h-[5vh] w-[15vh] bg-[#C6CF10] hover:bg-[#BAC20C] text-white text-sm hover:border-2 rounded-md flex justify-center items-center float-right md:mr-8 ">
               Your Places
             </div>
           </Link>
@@ -378,7 +378,7 @@ const Placelist = () => {
               },
             }}
           >
-            <div className="md:h-[6vh] h-[5vh] w-[15vh] bg-[#C6CF10] hover:bg-[#BAC20C] hover:border-2 rounded-md flex justify-center items-center float-right md:mr-8 ">
+            <div className="md:h-[6vh] h-[5vh] w-[15vh] bg-[#C6CF10] text-white hover:bg-[#BAC20C] hover:border-2 rounded-md flex justify-center items-center float-right md:mr-8 ">
               Your Places
             </div>
           </Link>

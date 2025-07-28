@@ -214,12 +214,12 @@ const Placelist = () => {
       <div className=" container bg-gradient-to-b transition-transform  from-[#000000] to-[#283618] pt-12 h-screen w-[100%] md:hidden">
 
       <div className="flex flex-col items-center w-[100%]">
-      <button onClick={()=>setside(false)}><HiArrowLongLeft  className=" absolute right-5 top-5 h-7 w-7 mr-2 md:hidden"/></button>
+      <button onClick={()=>setside(false)}><HiArrowLongLeft  className=" absolute right-5 text-white top-5 h-7 w-7 mr-2 md:hidden"/></button>
 
         <div>
           <UserButton afterSignOutUrl="/" />
         </div>
-        <div className="text-4xl font-mono">{name}</div>
+        <div className="text-4xl text-white font-mono">{name}</div>
         <div className="text-lg text-green-500 px-7 rounded-sm bg-[#606c38]">
           Earning : {earning}
         </div>
@@ -232,12 +232,12 @@ const Placelist = () => {
             <div className="text-xs text-[#536d77]">Bank name</div>
             {isediting ? (
               <input
-                className="text-[9.5px] font-light bg-[#425861] rounded-sm px-3 w-[100%] h-5"
+                className="text-[9.5px] font-light text-white bg-[#425861] rounded-sm px-3 w-[100%] h-5"
                 value={bank_name}
                 onChange={(e) => setBank_name(e.target.value)}
               />
             ) : (
-              <div className="text-[9.5px] font-light rounded-sm bg-[#425861] py-[2px] px-3 w-[100%] h-5">
+              <div className="text-[9.5px] font-light text-white rounded-sm bg-[#425861] py-[2px] px-3 w-[100%] h-5">
                 {bank_name}
               </div>
             )}
@@ -246,12 +246,12 @@ const Placelist = () => {
             <div className="text-xs text-[#536d77]">Account number</div>
             {isediting ? (
               <input
-                className="text-[9.5px] font-light rounded-sm bg-[#425861]  px-3 w-[100%] h-5"
+                className="text-[9.5px] font-light text-white rounded-sm bg-[#425861]  px-3 w-[100%] h-5"
                 value={account_no}
                 onChange={(e) => setAccount_no(e.target.value)}
               />
             ) : (
-              <div className="text-[9.5px] font-light rounded-sm bg-[#425861] py-[2px] px-3 w-[100%] h-5">
+              <div className="text-[9.5px] font-light text-white rounded-sm bg-[#425861] py-[2px] px-3 w-[100%] h-5">
                 {account_no}
               </div>
             )}
@@ -260,12 +260,12 @@ const Placelist = () => {
             <div className="text-xs text-[#536d77]">IFSC code</div>
             {isediting ? (
               <input
-                className="text-[9.5px] font-light rounded-sm bg-[#425861]  px-3 w-[100%] h-5"
+                className="text-[9.5px] font-light text-white rounded-sm bg-[#425861]  px-3 w-[100%] h-5"
                 value={ifsc_code}
                 onChange={(e) => setIfsc_code(e.target.value)}
               />
             ) : (
-              <div className="text-[9.5px] font-light rounded-sm bg-[#425861] py-[2px] px-3  w-[100%] h-5">
+              <div className="text-[9.5px] font-light text-white rounded-sm bg-[#425861] py-[2px] px-3  w-[100%] h-5">
                 {ifsc_code}
               </div>
             )}
@@ -274,12 +274,12 @@ const Placelist = () => {
             <div className="text-xs text-[#536d77]">Account holder name</div>
             {isediting ? (
               <input
-                className="text-[9.5px] font-light rounded-sm bg-[#425861]  px-3 w-[100%] h-5"
+                className="text-[9.5px] font-light text-white rounded-sm bg-[#425861]  px-3 w-[100%] h-5"
                 value={user_name_in_bank}
                 onChange={(e) => setUser_name_in_bank(e.target.value)}
               />
             ) : (
-              <div className="text-[9.5px] font-light rounded-sm bg-[#425861] py-[2px] px-3 w-[100%] h-5">
+              <div className="text-[9.5px] font-light text-white rounded-sm bg-[#425861] py-[2px] px-3 w-[100%] h-5">
                 {user_name_in_bank}
               </div>
             )}
@@ -287,14 +287,14 @@ const Placelist = () => {
           {isediting ? (
             <button
               onClick={handleUpdate}
-              className=" bg-[#517460] hover:bg-[#32483c] mt-4 mb-6 flex items-center justify-center mx-12 px-5 hover:border py-2 text-sm rounded-md"
+              className=" bg-[#517460] hover:bg-[#32483c] text-white mt-4 mb-6 flex items-center justify-center mx-12 px-5 hover:border py-2 text-sm rounded-md"
             >
               Confirm Edit
             </button>
           ) : (
             <button
               onClick={() => setisediting(true)}
-              className=" bg-[#517460] hover:bg-[#32483c] hover:border mt-4 mb-6 flex items-center justify-center mx-12 px-5 py-2 text-sm rounded-md"
+              className=" bg-[#517460] hover:bg-[#32483c] text-white hover:border mt-4 mb-6 flex items-center justify-center mx-12 px-5 py-2 text-sm rounded-md"
             >
               Edit
             </button>

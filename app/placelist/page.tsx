@@ -330,33 +330,50 @@ const Placelist = () => {
           {places && places.length > 0 ? (
             places.filter(place => !feedplaces.includes(place.id)).map((place, index) => (
               <div
-                key={index}
-                className=" bg-gradient-to-bl from-[#ececec] to-[#ffffff] p-4 w-[100%] rounded-lg mt-4 shadow-md"
-              >
-                <h3 className="text-xl text-black font-bold">{place.name}</h3>
-                <a href={place.link} className="text-sm font-mono border overflow-hidden border-gray-400 border-dotted w-full py-1 px-4 rounded-md mt-1 flex items-center bg-gray-100 text-blue-600">
-                  {place.link}
-                </a>
-                <form
-                  onSubmit={(e)=>handleSubmit(e,place.id,id)}
-                  className=" items-center mt-2"
-                ><label htmlFor="image" className="text-sm text-gray-400 mr-2">Add screenshot</label>
-                  <input
-                    type="file"
-                    title="Upload your file"
-                    id="image"
-                    accept="image/*"
-                    
-                    className=" text-purple-500 md:block hidden text-sm font-mono"
-                  />
-                  <button
-                    type="submit"
-                    className="bg-blue-500 text-white px-3 text-xs py-1 rounded-lg float-right"
-                  >
-                    Submit
-                  </button>
-                </form>
-              </div>
+  key={place.id}
+  className="bg-white bg-opacity-90 shadow-md rounded-lg p-3 mt-4 w-full transition-transform hover:shadow-lg"
+>
+  {/* Title */}
+  <h3 className="text-base font-medium text-gray-800 truncate">
+    {place.name}
+  </h3>
+
+  {/* Google Maps Link */}
+  <div className="flex items-center text-blue-600 text-sm mt-1 hover:underline">
+    <HiBars3 /* swap this for your map pin icon import */ className="mr-1 h-4 w-4" />
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        place.link
+      )}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View on Map
+    </a>
+  </div>
+
+  {/* Upload Form */}
+  <form
+    onSubmit={(e) => handleSubmit(e, place.id, id)}
+    className="mt-2 flex items-center"
+  >
+    <label htmlFor={`image-${index}`} className="text-xs text-gray-600 mr-2">
+      Screenshot
+    </label>
+    <input
+      type="file"
+      id={`image-${index}`}
+      accept="image/*"
+      className="text-xs text-gray-700"
+    />
+    <button
+      type="submit"
+      className="ml-auto bg-blue-500 hover:opacity-90 text-white text-[10px] px-2 py-1 rounded"
+    >
+      Submit
+    </button>
+  </form>
+</div>
             ))
           ) : (
            <div className="flex flex-col items-center justify-center h-full">
@@ -429,7 +446,7 @@ const Placelist = () => {
     />
     <button
       type="submit"
-      className="ml-auto bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:opacity-90 text-white text-[10px] px-2 py-1 rounded"
+      className="ml-auto bg-blue-500 hover:opacity-90 text-white text-[10px] px-2 py-1 rounded"
     >
       Submit
     </button>

@@ -412,7 +412,7 @@ const Placelist = () => {
                   />
                   <button
                     type="submit"
-                    className="bg-blue-500 text-white px-3 text-xs rounded-lg float-right"
+                    className="bg-blue-500 text-white px-3 py-1 mb-3 text-xs rounded-lg float-right"
                   >
                     Submit
                   </button>

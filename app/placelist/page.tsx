@@ -327,7 +327,7 @@ const Placelist = () => {
             </div>
           </Link>
         </div>
-        <div className="mb-4 mt-2 flex justify-center">
+        <div className="mb-3 mt-3 flex justify-center">
   <input
     type="text"
     placeholder="Search places..."
@@ -423,7 +423,7 @@ const Placelist = () => {
             </div>
           </Link>
         </div>
-        <div className="mb-4 mt-2 flex justify-center">
+        <div className="mb-3 mt-3 flex justify-center">
   <input
     type="text"
     placeholder="Search places..."

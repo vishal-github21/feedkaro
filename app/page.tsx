@@ -48,10 +48,10 @@ export default function Home() {
               <div className="text-2xl font-bold text-white tracking-wide">
                 feed<span className="text-purple-300">karo</span>
               </div>
-              <button className="group relative overflow-hidden px-6 py-2.5 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+              <Link href='/placelist'><button className="group relative overflow-hidden px-6 py-2.5 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
                 <span className="relative z-10">Log In</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </button>
+              </button></Link>
             </div>
           </div>
         </div>

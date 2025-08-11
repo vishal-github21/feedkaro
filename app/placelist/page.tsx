@@ -317,7 +317,7 @@ const Placelist = () => {
           />
         </div>
 
-        <div className="relative z-10 h-screen flex flex-col">
+        <div className="relative z-10 h-screen flex flex-col bg-gradient-to-b from-purple-100 via-pink-100 to-white">
           {/* Header */}
           <div className="backdrop-blur-xl bg-white/10 border-b border-white/20 p-6">
             <div className="flex items-center justify-between">

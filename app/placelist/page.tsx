@@ -3,8 +3,7 @@ import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { HiBars3 } from "react-icons/hi2";
-import { HiArrowLongLeft } from "react-icons/hi2";
+import { HiBars3, HiArrowLongLeft, HiMapPin, HiMagnifyingGlass, HiPhoto, HiCreditCard, HiPencilSquare, HiCheckCircle } from "react-icons/hi2";
 
 interface Place {
   name: string;
@@ -28,14 +27,28 @@ const Placelist = () => {
   const [feed_count, setFeed_count] = useState(0);
   const [places, setplaces] = useState<Place[]>([]);
   const [side, setside] = useState(false);
+  const [uploading, setUploading] = useState<string | null>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent, placeid: string, id: string) => {
     e.preventDefault();
+    setUploading(placeid);
+    
     const fileInput = (e.target as HTMLFormElement).elements.namedItem("image") as HTMLInputElement;
     const file = fileInput.files?.[0];
 
     if (!file) {
       alert("Please select an image.");
+      setUploading(null);
       return;
     }
 
@@ -47,7 +60,7 @@ const Placelist = () => {
         const response = await axios.post("/api/addfeed", {
           img: base64String,
           placeId: placeid,
-          userId: id,
+          userId: id
         });
         console.log(response.data);
         setEarning(earning + 4);
@@ -56,6 +69,8 @@ const Placelist = () => {
       } catch (err) {
         console.error("Error uploading image:", err);
         alert("Failed to upload image.");
+      } finally {
+        setUploading(null);
       }
     };
 
@@ -78,8 +93,6 @@ const Placelist = () => {
         setUser_name_in_bank(data.user_name_in_bank);
         setFeed_count(data.feed_count);
         setfeedplaces(data.feedplaces);
-
-        console.log(data);
       } catch (err) {
         console.error("Error:", err);
       }
@@ -92,17 +105,16 @@ const Placelist = () => {
     const fetchplaces = async () => {
       try {
         const response = await axios.get("/api/fetchplaces", {
-          params: { userId: id },
+          params: { userId: id }
         });
         const data = response.data;
-        console.log(data);
         setplaces(data);
       } catch (err) {
         console.error("Error:", err);
       }
     };
     fetchplaces();
-  }, []);
+  }, [id]);
 
   const handleUpdate = async () => {
     try {
@@ -123,416 +135,310 @@ const Placelist = () => {
     }
   };
 
-  return (
-    <div className="relative min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
-      {/* Animated background effects */}
+  const filteredPlaces = places
+    .filter(place => !feedplaces.includes(place.id))
+    .filter(place => place.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+  const Sidebar = ({ isMobile = false }) => (
+    <div className={`${isMobile ? 'fixed inset-0 z-50' : 'relative'} bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 ${isMobile ? 'w-full' : 'w-80'} h-screen overflow-hidden`}>
+      {/* Animated background */}
       <div className="absolute inset-0">
-        <div className="absolute w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse top-10 left-10" />
-        <div className="absolute w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse bottom-10 right-10 delay-1000" />
+        <div 
+          className="absolute w-64 h-64 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
+          style={{
+            left: mousePosition.x * 0.01 + 'px',
+            top: mousePosition.y * 0.01 + 'px',
+            transition: 'all 0.5s ease-out'
+          }}
+        />
+        <div className="absolute w-full h-full bg-gradient-to-b from-transparent via-black/20 to-black/40" />
       </div>
 
-      <div className="flex flex-row relative z-10">
-        {/* Desktop Sidebar */}
-        <div className="backdrop-blur-xl bg-black/20 border-r border-white/10 pt-12 h-screen w-[21%] md:block hidden">
-          <div className="flex flex-col items-center w-[100%]">
-            <div className="mb-4">
+      <div className="relative z-10 p-6 h-full flex flex-col">
+        {/* Close button for mobile */}
+        {isMobile && (
+          <button 
+            onClick={() => setside(false)}
+            className="absolute top-4 right-4 p-2 bg-white/10 backdrop-blur-xl rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300"
+          >
+            <HiArrowLongLeft className="w-6 h-6 text-white" />
+          </button>
+        )}
+
+        {/* User Profile Section */}
+        <div className="text-center mb-8 mt-8">
+          <div className="mb-4 flex justify-center">
+            <div className="p-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full">
               <UserButton afterSignOutUrl="/" />
             </div>
-            <div className="text-3xl text-white font-bold mb-3">{name}</div>
-            <div className="backdrop-blur-md bg-green-500/20 border border-green-400/30 text-green-300 px-6 py-2 rounded-xl font-semibold">
-              Earning: ₹{earning}
-            </div>
           </div>
+          <h2 className="text-2xl font-bold text-white mb-2">{name}</h2>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 backdrop-blur-xl border border-green-400/30 rounded-full">
+            <HiCreditCard className="w-5 h-5 text-green-400" />
+            <span className="text-green-400 font-semibold">₹{earning}</span>
+          </div>
+        </div>
 
-          {/* Account Info Glass Card */}
-          <div className="m-4 mt-16">
-            <div className="text-sm text-purple-300/70 mb-3 font-medium">ACCOUNT INFO</div>
-            <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 space-y-4">
+        {/* Account Info Card */}
+        <div className="flex-1 mb-6">
+          <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-2xl">
+            <h3 className="text-white/80 text-sm font-medium mb-4 flex items-center gap-2">
+              <HiCreditCard className="w-4 h-4" />
+              ACCOUNT INFO
+            </h3>
+            
+            <div className="space-y-4">
+              {/* Bank Name */}
               <div>
-                <div className="text-sm text-purple-300 mb-1">Bank name</div>
+                <label className="text-white/60 text-xs block mb-1">Bank Name</label>
                 {isediting ? (
                   <input
-                    className="w-full px-3 py-2 backdrop-blur-md bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-400 transition-colors"
+                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
                     value={bank_name}
                     onChange={(e) => setBank_name(e.target.value)}
                   />
                 ) : (
-                  <div className="w-full px-3 py-2 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg text-white/80">
+                  <div className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm">
                     {bank_name}
                   </div>
                 )}
               </div>
 
+              {/* Account Number */}
               <div>
-                <div className="text-sm text-purple-300 mb-1">Account number</div>
+                <label className="text-white/60 text-xs block mb-1">Account Number</label>
                 {isediting ? (
                   <input
-                    className="w-full px-3 py-2 backdrop-blur-md bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-400 transition-colors"
+                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
                     value={account_no}
                     onChange={(e) => setAccount_no(e.target.value)}
                   />
                 ) : (
-                  <div className="w-full px-3 py-2 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg text-white/80">
+                  <div className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm">
                     {account_no}
                   </div>
                 )}
               </div>
 
+              {/* IFSC Code */}
               <div>
-                <div className="text-sm text-purple-300 mb-1">IFSC code</div>
+                <label className="text-white/60 text-xs block mb-1">IFSC Code</label>
                 {isediting ? (
                   <input
-                    className="w-full px-3 py-2 backdrop-blur-md bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-400 transition-colors"
+                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
                     value={ifsc_code}
                     onChange={(e) => setIfsc_code(e.target.value)}
                   />
                 ) : (
-                  <div className="w-full px-3 py-2 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg text-white/80">
+                  <div className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm">
                     {ifsc_code}
                   </div>
                 )}
               </div>
 
+              {/* Account Holder Name */}
               <div>
-                <div className="text-sm text-purple-300 mb-1">Account holder name</div>
+                <label className="text-white/60 text-xs block mb-1">Account Holder Name</label>
                 {isediting ? (
                   <input
-                    className="w-full px-3 py-2 backdrop-blur-md bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-400 transition-colors"
+                    className="w-full px-3 py-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
                     value={user_name_in_bank}
                     onChange={(e) => setUser_name_in_bank(e.target.value)}
                   />
                 ) : (
-                  <div className="w-full px-3 py-2 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg text-white/80">
+                  <div className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm">
                     {user_name_in_bank}
                   </div>
                 )}
               </div>
 
-              {isediting ? (
-                <button
-                  onClick={handleUpdate}
-                  className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
-                >
-                  Confirm Edit
-                </button>
-              ) : (
-                <button
-                  onClick={() => setisediting(true)}
-                  className="w-full backdrop-blur-md bg-white/10 hover:bg-white/20 border border-white/20 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
-                >
-                  Edit
-                </button>
-              )}
+              {/* Edit/Save Button */}
+              <button
+                onClick={isediting ? handleUpdate : () => setisediting(true)}
+                className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2"
+              >
+                {isediting ? (
+                  <>
+                    <HiCheckCircle className="w-4 h-4" />
+                    Confirm Edit
+                  </>
+                ) : (
+                  <>
+                    <HiPencilSquare className="w-4 h-4" />
+                    Edit Info
+                  </>
+                )}
+              </button>
             </div>
-          </div>
-
-          {/* Withdrawal Button */}
-          <div className="absolute bottom-8 right-4">
-            <button className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:opacity-90 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
-              Request Withdrawal
-            </button>
           </div>
         </div>
 
-        {/* Mobile Sidebar */}
-        {side && (
-          <div className="backdrop-blur-xl bg-black/30 border-r border-white/10 pt-12 h-screen w-[100%] md:hidden fixed z-50 transition-transform">
-            <div className="flex flex-col items-center w-[100%]">
-              <button onClick={() => setside(false)}>
-                <HiArrowLongLeft className="absolute right-5 text-white top-5 h-7 w-7 mr-2 md:hidden" />
-              </button>
+        {/* Withdrawal Button */}
+        <button className="group relative overflow-hidden px-6 py-3 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+          <span className="relative z-10">Request Withdrawal</span>
+          <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        </button>
+      </div>
+    </div>
+  );
 
-              <div className="mb-4">
-                <UserButton afterSignOutUrl="/" />
-              </div>
-              <div className="text-3xl text-white font-bold mb-3">{name}</div>
-              <div className="backdrop-blur-md bg-green-500/20 border border-green-400/30 text-green-300 px-6 py-2 rounded-xl font-semibold">
-                Earning: ₹{earning}
-              </div>
-            </div>
+  return (
+    <div className="flex min-h-screen bg-gradient-to-br from-gray-100 via-purple-50 to-blue-50">
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:block">
+        <Sidebar />
+      </div>
 
-            {/* Mobile Account Info */}
-            <div className="m-4 mt-16">
-              <div className="text-sm text-purple-300/70 mb-3 font-medium">ACCOUNT INFO</div>
-              <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 space-y-4">
-                <div>
-                  <div className="text-sm text-purple-300 mb-1">Bank name</div>
-                  {isediting ? (
-                    <input
-                      className="w-full px-3 py-2 backdrop-blur-md bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-400 transition-colors"
-                      value={bank_name}
-                      onChange={(e) => setBank_name(e.target.value)}
-                    />
-                  ) : (
-                    <div className="w-full px-3 py-2 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg text-white/80">
-                      {bank_name}
-                    </div>
-                  )}
-                </div>
+      {/* Mobile Sidebar Overlay */}
+      {side && (
+        <div className="lg:hidden">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" onClick={() => setside(false)} />
+          <Sidebar isMobile={true} />
+        </div>
+      )}
 
-                <div>
-                  <div className="text-sm text-purple-300 mb-1">Account number</div>
-                  {isediting ? (
-                    <input
-                      className="w-full px-3 py-2 backdrop-blur-md bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-400 transition-colors"
-                      value={account_no}
-                      onChange={(e) => setAccount_no(e.target.value)}
-                    />
-                  ) : (
-                    <div className="w-full px-3 py-2 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg text-white/80">
-                      {account_no}
-                    </div>
-                  )}
-                </div>
+      {/* Main Content */}
+      <div className="flex-1 relative overflow-hidden">
+        {/* Animated background */}
+        <div className="absolute inset-0">
+          <div 
+            className="absolute w-96 h-96 bg-purple-300/20 rounded-full blur-3xl animate-pulse"
+            style={{
+              right: (window.innerWidth - mousePosition.x) * 0.02 + 'px',
+              top: mousePosition.y * 0.01 + 'px',
+              transition: 'all 0.3s ease-out'
+            }}
+          />
+        </div>
 
-                <div>
-                  <div className="text-sm text-purple-300 mb-1">IFSC code</div>
-                  {isediting ? (
-                    <input
-                      className="w-full px-3 py-2 backdrop-blur-md bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-400 transition-colors"
-                      value={ifsc_code}
-                      onChange={(e) => setIfsc_code(e.target.value)}
-                    />
-                  ) : (
-                    <div className="w-full px-3 py-2 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg text-white/80">
-                      {ifsc_code}
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  <div className="text-sm text-purple-300 mb-1">Account holder name</div>
-                  {isediting ? (
-                    <input
-                      className="w-full px-3 py-2 backdrop-blur-md bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-400 transition-colors"
-                      value={user_name_in_bank}
-                      onChange={(e) => setUser_name_in_bank(e.target.value)}
-                    />
-                  ) : (
-                    <div className="w-full px-3 py-2 backdrop-blur-md bg-white/5 border border-white/10 rounded-lg text-white/80">
-                      {user_name_in_bank}
-                    </div>
-                  )}
-                </div>
-
-                {isediting ? (
-                  <button
-                    onClick={handleUpdate}
-                    className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
-                  >
-                    Confirm Edit
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => setisediting(true)}
-                    className="w-full backdrop-blur-md bg-white/10 hover:bg-white/20 border border-white/20 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
-                  >
-                    Edit
-                  </button>
-                )}
-              </div>
-            </div>
-
-            <div className="absolute bottom-8 right-4">
-              <button className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:opacity-90 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
-                Request Withdrawal
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Main Content Area - Mobile */}
-        {!side && (
-          <div className="backdrop-blur-xl bg-white/10 border border-white/20 flex flex-col p-6 h-screen md:w-[79%] md:hidden w-[100%]">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center">
-                <button onClick={() => setside(true)}>
-                  <HiBars3 className="h-6 w-6 mr-3 text-white md:hidden" />
+        <div className="relative z-10 h-screen flex flex-col">
+          {/* Header */}
+          <div className="backdrop-blur-xl bg-white/10 border-b border-white/20 p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <button 
+                  onClick={() => setside(true)}
+                  className="lg:hidden p-2 bg-white/10 backdrop-blur-xl rounded-lg border border-white/20 hover:bg-white/20 transition-all duration-300"
+                >
+                  <HiBars3 className="w-6 h-6 text-gray-700" />
                 </button>
-                <span className="text-2xl font-bold text-white">
-                  feed<span className="text-purple-300">karo</span>
-                </span>
+                <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                  feedkaro
+                </div>
               </div>
 
               <Link
                 href={{
                   pathname: "/yourplaces",
-                  query: {
-                    id: id,
-                    clerk_id: clerk_id,
-                    name: name,
-                  },
+                  query: { id, clerk_id, name },
                 }}
               >
-                <div className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 text-sm">
+                <button className="px-6 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105">
                   Your Places
-                </div>
+                </button>
               </Link>
             </div>
+          </div>
 
-            {/* Search Bar */}
-            <div className="mb-6">
+          {/* Search Bar */}
+          <div className="p-6 pb-4">
+            <div className="relative max-w-md mx-auto">
+              <HiMagnifyingGlass className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search places..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-3 backdrop-blur-md bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-purple-400 transition-colors"
+                onChange={e => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 backdrop-blur-xl bg-white/20 border border-white/30 rounded-xl text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white/30 transition-all duration-300"
               />
             </div>
+          </div>
 
-            {/* Places List */}
-            <div className="flex-1 overflow-y-auto space-y-4 custom-scrollbar">
-              {places && places.length > 0 ? (
-                places
-                  .filter((place) => !feedplaces.includes(place.id))
-                  .filter((place) => place.name.toLowerCase().includes(searchTerm.toLowerCase()))
-                  .map((place, index) => (
+          {/* Places List */}
+          <div className="flex-1 px-6 pb-6 overflow-y-auto">
+            <div className="max-w-4xl mx-auto">
+              {filteredPlaces.length > 0 ? (
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-1">
+                  {filteredPlaces.map((place, index) => (
                     <div
                       key={place.id}
-                      className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 transition-all duration-300 hover:bg-white/20 hover:scale-[1.02]"
+                      className="group backdrop-blur-xl bg-white/20 border border-white/30 rounded-xl p-6 shadow-lg hover:bg-white/30 hover:scale-[1.02] transition-all duration-300"
                     >
-                      <h3 className="text-lg font-semibold text-white mb-2 truncate">{place.name}</h3>
-
-                      <div className="flex items-center text-blue-300 text-sm mb-4 hover:text-blue-200 transition-colors">
-                        <HiBars3 className="mr-2 h-4 w-4" />
-                        <a href={place.link} target="_blank" rel="noopener noreferrer">
-                          View on Map
-                        </a>
+                      {/* Place Info */}
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg font-semibold text-gray-800 truncate group-hover:text-gray-900 transition-colors duration-300">
+                            {place.name}
+                          </h3>
+                          <a
+                            href={place.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 text-sm mt-1 transition-colors duration-300"
+                          >
+                            <HiMapPin className="w-4 h-4" />
+                            View on Map
+                          </a>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm text-gray-600">Reward</div>
+                          <div className="text-lg font-bold text-green-600">+₹4</div>
+                        </div>
                       </div>
 
-                      <form onSubmit={(e) => handleSubmit(e, place.id, id)} className="flex items-center gap-3">
-                        <label htmlFor={`image-${index}`} className="text-sm text-white/80 flex-shrink-0">
-                          Add screenshot:
-                        </label>
-                        <input
-                          type="file"
-                          id={`image-${index}`}
-                          name="image"
-                          accept="image/*"
-                          className="flex-1 text-xs text-white/70 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:backdrop-blur-md file:bg-white/10 file:text-white file:cursor-pointer hover:file:bg-white/20 transition-colors"
-                        />
-                        <button
-                          type="submit"
-                          className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 text-sm"
-                        >
-                          Submit
-                        </button>
+                      {/* Upload Form */}
+                      <form onSubmit={(e) => handleSubmit(e, place.id, id)} className="space-y-3">
+                        <div className="flex items-center gap-3">
+                          <label htmlFor={`image-${index}`} className="flex-1">
+                            <div className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-dashed border-blue-300 rounded-lg hover:from-blue-100 hover:to-purple-100 hover:border-blue-400 transition-all duration-300 cursor-pointer">
+                              <HiPhoto className="w-5 h-5 text-blue-600" />
+                              <span className="text-blue-700 font-medium">Choose Screenshot</span>
+                            </div>
+                            <input
+                              type="file"
+                              id={`image-${index}`}
+                              name="image"
+                              accept="image/*"
+                              className="hidden"
+                            />
+                          </label>
+                          
+                          <button
+                            type="submit"
+                            disabled={uploading === place.id}
+                            className="px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed"
+                          >
+                            {uploading === place.id ? (
+                              <div className="flex items-center gap-2">
+                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                Uploading...
+                              </div>
+                            ) : (
+                              'Submit'
+                            )}
+                          </button>
+                        </div>
                       </form>
                     </div>
-                  ))
+                  ))}
+                </div>
               ) : (
-                <div className="flex flex-col items-center justify-center h-full">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-purple-400 mb-4"></div>
-                  <p className="text-purple-300 text-lg font-semibold">Fetching new places...</p>
-                  <p className="text-white/60 text-sm">Hang tight, something cool is on the way!</p>
+                <div className="flex flex-col items-center justify-center h-64">
+                  <div className="relative">
+                    <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin" />
+                    <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-r-blue-600 rounded-full animate-spin animate-reverse" />
+                  </div>
+                  <h3 className="text-xl font-bold text-purple-700 mt-4 mb-2">Discovering Amazing Places</h3>
+                  <p className="text-gray-600 text-center max-w-md">
+                    We&apos;re fetching the latest places for you to explore and earn from.
+                    Something exciting is coming your way!
+                  </p>
                 </div>
               )}
             </div>
           </div>
-        )}
-
-        {/* Main Content Area - Desktop */}
-        <div className="backdrop-blur-xl bg-white/10 border border-white/20 flex flex-col p-8 h-screen w-[79%] md:block hidden">
-          <div className="flex items-center justify-between mb-8">
-            <span className="text-3xl font-bold text-white">
-              feed<span className="text-purple-300">karo</span>
-            </span>
-
-            <Link
-              href={{
-                pathname: "/yourplaces",
-                query: {
-                  id: id,
-                  clerk_id: clerk_id,
-                  name: name,
-                },
-              }}
-            >
-              <div className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105">
-                Your Places
-              </div>
-            </Link>
-          </div>
-
-          {/* Search Bar */}
-          <div className="mb-6">
-            <input
-              type="text"
-              placeholder="Search places..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full max-w-md mx-auto block px-6 py-3 backdrop-blur-md bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-purple-400 transition-colors"
-            />
-          </div>
-
-          {/* Places List */}
-          <div className="flex-1 overflow-y-auto space-y-6 custom-scrollbar">
-            {places && places.length > 0 ? (
-              places
-                .filter((place) => !feedplaces.includes(place.id))
-                .filter((place) => place.name.toLowerCase().includes(searchTerm.toLowerCase()))
-                .map((place, index) => (
-                  <div
-                    key={place.id}
-                    className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 transition-all duration-300 hover:bg-white/20 hover:scale-[1.02] shadow-xl"
-                  >
-                    <h3 className="text-xl font-semibold text-white mb-3 truncate">{place.name}</h3>
-
-                    <div className="flex items-center text-blue-300 text-sm mb-4 hover:text-blue-200 transition-colors">
-                      <HiBars3 className="mr-2 h-4 w-4" />
-                      <a href={place.link} target="_blank" rel="noopener noreferrer">
-                        View on Map
-                      </a>
-                    </div>
-
-                    <form onSubmit={(e) => handleSubmit(e, place.id, id)} className="flex items-center gap-4">
-                      <label htmlFor={`image-${index}`} className="text-sm text-white/80 flex-shrink-0">
-                        Add screenshot:
-                      </label>
-                      <input
-                        type="file"
-                        id={`image-${index}`}
-                        name="image"
-                        accept="image/*"
-                        className="flex-1 text-sm text-white/70 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:backdrop-blur-md file:bg-white/10 file:text-white file:cursor-pointer hover:file:bg-white/20 transition-colors"
-                      />
-                      <button
-                        type="submit"
-                        className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
-                      >
-                        Submit
-                      </button>
-                    </form>
-                  </div>
-                ))
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-purple-400 mb-6"></div>
-                <p className="text-purple-300 text-xl font-semibold mb-2">Fetching new places...</p>
-                <p className="text-white/60">Hang tight, something cool is on the way!</p>
-              </div>
-            )}
-          </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.3);
-          border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.5);
-        }
-      `}</style>
     </div>
   );
 };

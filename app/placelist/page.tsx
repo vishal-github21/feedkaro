@@ -430,7 +430,7 @@ const Placelist = () => {
                   </div>
                   <h3 className="text-xl font-bold text-purple-700 mt-4 mb-2">Discovering Amazing Places</h3>
                   <p className="text-gray-600 text-center max-w-md">
-                    We're fetching the latest places for you to explore and earn from. 
+                    We&apos;re fetching the latest places for you to explore and earn from.
                     Something exciting is coming your way!
                   </p>
                 </div>

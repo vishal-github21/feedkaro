@@ -6,7 +6,16 @@ export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
 
+  useEffect(() => {
+    setIsLoaded(true);
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
 
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   return (
     <div className="relative w-full min-h-screen overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
@@ -14,9 +23,19 @@ export default function Home() {
       <div className="absolute inset-0">
         <div 
           className="absolute w-96 h-96 bg-purple-500/30 rounded-full blur-3xl animate-pulse"
+          style={{
+            left: mousePosition.x * 0.02 + 'px',
+            top: mousePosition.y * 0.02 + 'px',
+            transition: 'all 0.3s ease-out'
+          }}
         />
         <div 
           className="absolute w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000"
+          style={{
+            right: (1920 - mousePosition.x) * 0.01 + 'px',
+            bottom: (1080 - mousePosition.y) * 0.01 + 'px',
+            transition: 'all 0.5s ease-out'
+          }}
         />
         <div className="absolute w-full h-full bg-gradient-to-t from-black/20 to-transparent" />
       </div>

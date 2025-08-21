@@ -12,6 +12,187 @@ interface Place {
   id: string;
 }
 
+interface SidebarProps {
+  isMobile?: boolean;
+  side: boolean;
+  setside: (val: boolean) => void;
+  isediting: boolean;
+  setisediting: (val: boolean) => void;
+  handleUpdate: () => void;
+  name: string;
+  earning: number;
+  bank_name: string;
+  setBank_name: (val: string) => void;
+  account_no: string;
+  setAccount_no: (val: string) => void;
+  ifsc_code: string;
+  setIfsc_code: (val: string) => void;
+  user_name_in_bank: string;
+  setUser_name_in_bank: (val: string) => void;
+}
+
+const Sidebar = ({
+  isMobile = false,
+  side,
+  setside,
+  isediting,
+  setisediting,
+  handleUpdate,
+  name,
+  earning,
+  bank_name,
+  setBank_name,
+  account_no,
+  setAccount_no,
+  ifsc_code,
+  setIfsc_code,
+  user_name_in_bank,
+  setUser_name_in_bank,
+}: SidebarProps) => (
+  <div
+    className={`${
+      isMobile ? "fixed inset-0 z-50" : "relative"
+    } bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 ${
+      isMobile ? "w-full" : "w-80 md:w-72"
+    } h-screen overflow-hidden`}
+  >
+    {/* Animated background */}
+    <div className="absolute inset-0">
+      <div className="absolute w-64 h-64 bg-purple-500/20 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute w-full h-full bg-gradient-to-b from-transparent via-black/20 to-black/40" />
+    </div>
+
+    <div className="relative z-10 p-6 md:p-4 h-full flex flex-col">
+      {/* Close button for mobile */}
+      {isMobile && (
+        <button
+          onClick={() => setside(false)}
+          className="absolute top-4 right-4 p-2 bg-white/10 backdrop-blur-xl rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300"
+        >
+          <HiArrowLongLeft className="w-6 h-6 text-white" />
+        </button>
+      )}
+
+      {/* User Profile */}
+      <div className="text-center mb-8 mt-8 md:mt-4 md:mb-4">
+        <div className="mb-4 flex justify-center">
+          <div className="p-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full">
+            <UserButton afterSignOutUrl="/" />
+          </div>
+        </div>
+        <h2 className="text-2xl md:text-lg font-bold text-white mb-2">{name}</h2>
+        <div className="inline-flex items-center gap-2 px-4 py-2 md:px-3 md:py-1.5 bg-gradient-to-r from-green-500/20 to-emerald-500/20 backdrop-blur-xl border border-green-400/30 rounded-full">
+          <HiCreditCard className="w-5 h-5 md:w-4 md:h-4 text-green-400" />
+          <span className="text-green-400 font-semibold text-sm md:text-xs">
+            ₹{earning}
+          </span>
+        </div>
+      </div>
+
+      {/* Account Info */}
+      <div className="flex-1 mb-6 md:mb-4">
+        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 md:p-4 shadow-2xl">
+          <h3 className="text-white/80 text-sm md:text-xs font-medium mb-4 flex items-center gap-2">
+            <HiCreditCard className="w-4 h-4" />
+            ACCOUNT INFO
+          </h3>
+
+          <div className="space-y-4 md:space-y-3">
+            {/* Bank Name */}
+            <div>
+              <label className="text-white/60 text-xs block mb-1">Bank Name</label>
+              {isediting ? (
+                <input
+                  className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  value={bank_name}
+                  onChange={(e) => setBank_name(e.target.value)}
+                />
+              ) : (
+                <div className="w-full px-3 py-2 md:py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm md:text-xs">
+                  {bank_name}
+                </div>
+              )}
+            </div>
+
+            {/* Account Number */}
+            <div>
+              <label className="text-white/60 text-xs block mb-1">Account Number</label>
+              {isediting ? (
+                <input
+                  className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  value={account_no}
+                  onChange={(e) => setAccount_no(e.target.value)}
+                />
+              ) : (
+                <div className="w-full px-3 py-2 md:py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm md:text-xs">
+                  {account_no}
+                </div>
+              )}
+            </div>
+
+            {/* IFSC Code */}
+            <div>
+              <label className="text-white/60 text-xs block mb-1">IFSC Code</label>
+              {isediting ? (
+                <input
+                  className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  value={ifsc_code}
+                  onChange={(e) => setIfsc_code(e.target.value)}
+                />
+              ) : (
+                <div className="w-full px-3 py-2 md:py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm md:text-xs">
+                  {ifsc_code}
+                </div>
+              )}
+            </div>
+
+            {/* Account Holder Name */}
+            <div>
+              <label className="text-white/60 text-xs block mb-1">
+                Account Holder Name
+              </label>
+              {isediting ? (
+                <input
+                  className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  value={user_name_in_bank}
+                  onChange={(e) => setUser_name_in_bank(e.target.value)}
+                />
+              ) : (
+                <div className="w-full px-3 py-2 md:py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm md:text-xs">
+                  {user_name_in_bank}
+                </div>
+              )}
+            </div>
+
+            {/* Edit/Save */}
+            <button
+              onClick={isediting ? handleUpdate : () => setisediting(true)}
+              className="w-full mt-4 md:mt-3 px-4 py-2 md:px-3 md:py-1.5 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white text-sm md:text-xs font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2"
+            >
+              {isediting ? (
+                <>
+                  <HiCheckCircle className="w-4 h-4" />
+                  Confirm Edit
+                </>
+              ) : (
+                <>
+                  <HiPencilSquare className="w-4 h-4" />
+                  Edit Info
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Withdrawal */}
+      <button className="group relative overflow-hidden px-6 md:px-4 py-3 md:py-2 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white font-semibold text-sm md:text-xs rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+        <span className="relative z-10">Request Withdrawal</span>
+        <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      </button>
+    </div>
+  </div>
+);
 const Placelist = () => {
   const [isediting, setisediting] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -139,170 +320,57 @@ const Placelist = () => {
     .filter(place => !feedplaces.includes(place.id))
     .filter(place => place.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
-  const Sidebar = ({ isMobile = false }) => (
-  <div
-    className={`${isMobile ? 'fixed inset-0 z-50' : 'relative'} 
-      bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 
-      ${isMobile ? 'w-full' : 'w-80 md:w-72'} 
-      h-screen overflow-hidden`}
-  >
-    {/* Animated background */}
-    <div className="absolute inset-0">
-      <div
-        className="absolute w-64 h-64 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
-      />
-      <div className="absolute w-full h-full bg-gradient-to-b from-transparent via-black/20 to-black/40" />
-    </div>
 
-    <div className="relative z-10 p-6 md:p-4 h-full flex flex-col">
-      {/* Close button for mobile */}
-      {isMobile && (
-        <button
-          onClick={() => setside(false)}
-          className="absolute top-4 right-4 p-2 bg-white/10 backdrop-blur-xl rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300"
-        >
-          <HiArrowLongLeft className="w-6 h-6 text-white" />
-        </button>
-      )}
-
-      {/* User Profile Section */}
-      <div className="text-center mb-8 mt-8 md:mt-4 md:mb-4">
-        <div className="mb-4 flex justify-center">
-          <div className="p-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full">
-            <UserButton afterSignOutUrl="/" />
-          </div>
-        </div>
-        <h2 className="text-2xl md:text-lg font-bold text-white mb-2">{name}</h2>
-        <div className="inline-flex items-center gap-2 px-4 py-2 md:px-3 md:py-1.5 bg-gradient-to-r from-green-500/20 to-emerald-500/20 backdrop-blur-xl border border-green-400/30 rounded-full">
-          <HiCreditCard className="w-5 h-5 md:w-4 md:h-4 text-green-400" />
-          <span className="text-green-400 font-semibold text-sm md:text-xs">₹{earning}</span>
-        </div>
-      </div>
-
-      {/* Account Info Card */}
-      <div className="flex-1 mb-6 md:mb-4">
-        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 md:p-4 shadow-2xl">
-          <h3 className="text-white/80 text-sm md:text-xs font-medium mb-4 flex items-center gap-2">
-            <HiCreditCard className="w-4 h-4" />
-            ACCOUNT INFO
-          </h3>
-
-          <div className="space-y-4 md:space-y-3">
-            {/* Bank Name */}
-            <div>
-              <label className="text-white/60 text-xs block mb-1">Bank Name</label>
-              {isediting ? (
-                <input
-                  
-                  className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  value={bank_name}
-                  onChange={(e) => setBank_name(e.target.value)}
-                  readOnly={!isediting}
-                />
-              ) : (
-                <div className="w-full px-3 py-2 md:py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm md:text-xs">
-                  {bank_name}
-                </div>
-              )}
-            </div>
-
-            {/* Account Number */}
-            <div>
-              <label className="text-white/60 text-xs block mb-1">Account Number</label>
-              {isediting ? (
-                <input
-                  
-                  className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  value={account_no}
-                  onChange={(e) => setAccount_no(e.target.value)}
-                  readOnly={!isediting}
-                />
-              ) : (
-                <div className="w-full px-3 py-2 md:py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm md:text-xs">
-                  {account_no}
-                </div>
-              )}
-            </div>
-
-            {/* IFSC Code */}
-            <div>
-              <label className="text-white/60 text-xs block mb-1">IFSC Code</label>
-              {isediting ? (
-                <input
-                  
-                  className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  value={ifsc_code}
-                  onChange={(e) => setIfsc_code(e.target.value)}
-                  readOnly={!isediting}
-                />
-              ) : (
-                <div className="w-full px-3 py-2 md:py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm md:text-xs">
-                  {ifsc_code}
-                </div>
-              )}
-            </div>
-
-            {/* Account Holder Name */}
-            <div>
-              <label className="text-white/60 text-xs block mb-1">Account Holder Name</label>
-              {isediting ? (
-                <input
-                  
-                  className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  value={user_name_in_bank}
-                  onChange={(e) => setUser_name_in_bank(e.target.value)}
-                  readOnly={!isediting}
-                />
-              ) : (
-                <div className="w-full px-3 py-2 md:py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm md:text-xs">
-                  {user_name_in_bank}
-                </div>
-              )}
-            </div>
-
-            {/* Edit/Save Button */}
-            <button
-              onClick={isediting ? handleUpdate : () => setisediting(true)}
-              className="w-full mt-4 md:mt-3 px-4 py-2 md:px-3 md:py-1.5 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white text-sm md:text-xs font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2"
-            >
-              {isediting ? (
-                <>
-                  <HiCheckCircle className="w-4 h-4" />
-                  Confirm Edit
-                </>
-              ) : (
-                <>
-                  <HiPencilSquare className="w-4 h-4" />
-                  Edit Info
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Withdrawal Button */}
-      <button className="group relative overflow-hidden px-6 md:px-4 py-3 md:py-2 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white font-semibold text-sm md:text-xs rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
-        <span className="relative z-10">Request Withdrawal</span>
-        <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      </button>
-    </div>
-  </div>
-);
 
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-100 via-purple-50 to-blue-50">
       {/* Desktop Sidebar */}
       <div className="hidden lg:block">
-        <Sidebar />
+        <Sidebar
+          side={side}
+          setside={setside}
+          isediting={isediting}
+          setisediting={setisediting}
+          handleUpdate={handleUpdate}
+          name={name}
+          earning={earning}
+          bank_name={bank_name}
+          setBank_name={setBank_name}
+          account_no={account_no}
+          setAccount_no={setAccount_no}
+          ifsc_code={ifsc_code}
+          setIfsc_code={setIfsc_code}
+          user_name_in_bank={user_name_in_bank}
+          setUser_name_in_bank={setUser_name_in_bank}
+        />
       </div>
 
-      {/* Mobile Sidebar Overlay */}
+      {/* Mobile Sidebar */}
       {side && (
         <div className="lg:hidden">
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" onClick={() => setside(false)} />
-          <Sidebar isMobile={true} />
+          <div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            onClick={() => setside(false)}
+          />
+          <Sidebar
+            isMobile
+            side={side}
+            setside={setside}
+            isediting={isediting}
+            setisediting={setisediting}
+            handleUpdate={handleUpdate}
+            name={name}
+            earning={earning}
+            bank_name={bank_name}
+            setBank_name={setBank_name}
+            account_no={account_no}
+            setAccount_no={setAccount_no}
+            ifsc_code={ifsc_code}
+            setIfsc_code={setIfsc_code}
+            user_name_in_bank={user_name_in_bank}
+            setUser_name_in_bank={setUser_name_in_bank}
+          />
         </div>
       )}
 

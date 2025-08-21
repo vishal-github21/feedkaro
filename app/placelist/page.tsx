@@ -28,7 +28,7 @@ const Placelist = () => {
   const [places, setplaces] = useState<Place[]>([]);
   const [side, setside] = useState(false);
   const [uploading, setUploading] = useState<string | null>(null);
-  // const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   // useEffect(() => {
   //   const handleMouseMove = (e: MouseEvent) => {

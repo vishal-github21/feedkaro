@@ -164,21 +164,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Floating particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-white/20 rounded-full animate-float"
-            style={{
-              left: Math.random() * 100 + '%',
-              top: Math.random() * 100 + '%',
-              animationDelay: Math.random() * 5 + 's',
-              animationDuration: (Math.random() * 3 + 4) + 's'
-            }}
-          />
-        ))}
-      </div>
+      
 
       <style jsx>{`
         @keyframes float {

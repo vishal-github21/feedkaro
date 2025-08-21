@@ -198,6 +198,7 @@ const Placelist = () => {
               <label className="text-white/60 text-xs block mb-1">Bank Name</label>
               {isediting ? (
                 <input
+                  key="bank_name_input"
                   className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
                   value={bank_name}
                   onChange={(e) => setBank_name(e.target.value)}
@@ -214,6 +215,7 @@ const Placelist = () => {
               <label className="text-white/60 text-xs block mb-1">Account Number</label>
               {isediting ? (
                 <input
+                  key="account_no_input"
                   className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
                   value={account_no}
                   onChange={(e) => setAccount_no(e.target.value)}
@@ -230,6 +232,7 @@ const Placelist = () => {
               <label className="text-white/60 text-xs block mb-1">IFSC Code</label>
               {isediting ? (
                 <input
+                  key="ifsc_code_input"
                   className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
                   value={ifsc_code}
                   onChange={(e) => setIfsc_code(e.target.value)}
@@ -246,6 +249,7 @@ const Placelist = () => {
               <label className="text-white/60 text-xs block mb-1">Account Holder Name</label>
               {isediting ? (
                 <input
+                  key="account_holder_name_input"
                   className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
                   value={user_name_in_bank}
                   onChange={(e) => setUser_name_in_bank(e.target.value)}

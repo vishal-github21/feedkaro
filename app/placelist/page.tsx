@@ -150,11 +150,6 @@ const Placelist = () => {
     <div className="absolute inset-0">
       <div
         className="absolute w-64 h-64 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
-        style={{
-          left: mousePosition.x * 0.01 + 'px',
-          top: mousePosition.y * 0.01 + 'px',
-          transition: 'all 0.5s ease-out'
-        }}
       />
       <div className="absolute w-full h-full bg-gradient-to-b from-transparent via-black/20 to-black/40" />
     </div>

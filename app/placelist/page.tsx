@@ -202,6 +202,7 @@ const Placelist = () => {
                   className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
                   value={bank_name}
                   onChange={(e) => setBank_name(e.target.value)}
+                  autoFocus
                 />
               ) : (
                 <div className="w-full px-3 py-2 md:py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm md:text-xs">
@@ -219,6 +220,7 @@ const Placelist = () => {
                   className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
                   value={account_no}
                   onChange={(e) => setAccount_no(e.target.value)}
+                  autoFocus
                 />
               ) : (
                 <div className="w-full px-3 py-2 md:py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm md:text-xs">
@@ -236,6 +238,7 @@ const Placelist = () => {
                   className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
                   value={ifsc_code}
                   onChange={(e) => setIfsc_code(e.target.value)}
+                  autoFocus
                 />
               ) : (
                 <div className="w-full px-3 py-2 md:py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm md:text-xs">
@@ -253,6 +256,7 @@ const Placelist = () => {
                   className="w-full px-3 py-2 md:py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg text-white text-sm md:text-xs focus:outline-none focus:ring-2 focus:ring-purple-500"
                   value={user_name_in_bank}
                   onChange={(e) => setUser_name_in_bank(e.target.value)}
+                  autoFocus
                 />
               ) : (
                 <div className="w-full px-3 py-2 md:py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/90 text-sm md:text-xs">

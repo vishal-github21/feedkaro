@@ -28,16 +28,16 @@ const Placelist = () => {
   const [places, setplaces] = useState<Place[]>([]);
   const [side, setside] = useState(false);
   const [uploading, setUploading] = useState<string | null>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  // const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
+  // useEffect(() => {
+  //   const handleMouseMove = (e: MouseEvent) => {
+  //     setMousePosition({ x: e.clientX, y: e.clientY });
+  //   };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  //   window.addEventListener('mousemove', handleMouseMove);
+  //   return () => window.removeEventListener('mousemove', handleMouseMove);
+  // }, []);
 
   const handleSubmit = async (e: React.FormEvent, placeid: string, id: string) => {
     e.preventDefault();
